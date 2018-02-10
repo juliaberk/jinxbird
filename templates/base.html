@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>Jinx Bird</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    {% if "user_id" in session %}
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a>
+    {% endif %}
+
+<hr>
+
+    {% for flash in get_flashed_messages() %}
+      {{ flash }}
+    {% endfor %}
+
+{% block content %}
+
+    <!-- This is where the STUFF will go -->
+
+{% endblock %}
+
+
+</body>
+</html>
