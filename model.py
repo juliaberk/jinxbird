@@ -12,7 +12,9 @@ db = SQLAlchemy()
 # Model definitions
 
 # I have users with records. One user can have many records. The purpose
-# of a record is to keep track of attempts to see a bird. Species 
+# of a record is to keep track of attempts to see a bird. I made a species table
+# so there is a link between what the user types and what is needed to query for
+# reported sightings (we need a species code for the ebird API)
 
 class User(db.Model):
     """User of birdwatching website."""
