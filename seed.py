@@ -13,9 +13,9 @@ import csv
 # BIRDS ###################################################################
 
 def load_birds():
-    """Load bird common names with species code into database"""
+    """Load bird common names with corresponding species codes into database"""
 
-    for i, row in enumerate(open('species.csv')):
+    for i, row in enumerate(open('seed_data/species.csv')):
         data = row.rstrip().split(",")
         common_name, species_code = data
 
@@ -32,6 +32,7 @@ def load_birds():
 
 
 # USERS ####################################################################
+
 
 # def set_val_user_id():
 #     """Set value for the next user_id after seeding database"""

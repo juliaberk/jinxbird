@@ -3,6 +3,7 @@
 from flask import Flask, redirect, request, render_template, session, jsonify, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+from ebird_api import *
 
 from model import connect_to_db, db, User, Record, Species
 
@@ -15,7 +16,7 @@ app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
+app.secret_key = "asdfjkl"
 
 # ROUTES ################################################################## 
 
@@ -23,11 +24,11 @@ app.secret_key = "ABC"
 def index():
     """Show Homepage"""
 
-    return render_template("homepage.html")
+    return render_template("index.html")
 
 @app.route('/', methods=['POST'])
 def search_birds():
-    """Get the bird name, save it, and take that info to the map"""
+    """Get the bird name and check if it's in the database"""
 
     # Get the common name of the bird from the user input
     common_name = request.form.get('bird_species')
@@ -44,41 +45,50 @@ def search_birds():
     session["common_name"] = bird.common_name
 
     # Get species code from database so we can use ebird API
-    species_code = bird.species_code
-    print species_code
+    species_id = bird.species_code
 
-# Instead of redirect, we're going to render /map and we'll pass in species_code
-    return render_template("map.html")
+    # for MVP go to new page
+    return render_template("map.html", species_id=species_id)
 
-@app.route('/map.json', methods=['GET'])
+@app.route('/results.json', methods=['GET'])
 def display_map():
-    """Show map of user's current location with bird sighting locations """
+    """Take the user's location + selected bird, give to API, get back info """
 
-    # Display the name of the bird 
+    # lat = request.args.get('lat')
+    # longitude = request.args.get('longitude')
+    # species_id = request.args.get('speciesId')
 
-    # We need a map with the user's current location as the center
 
-    # Click-able dots on map to show birds
+    url = "https://ebird.org/ws2.0/data/obs/geo/recent/amecro"
 
-    lat = request.args.get('lat')
-    longitude = request.args.get('longitude')
-    species_code = request.args.get('speciesId')
-
-    url = "https://ebird.org/ws2.0/data/obs/geo/recent/{}".format(species_code)
-
-    # this needs to be at end of the ULR: "species_code":species_code
-
-    querystring = {"lat":lat,"lng":longitude}
+    querystring = {"lat":"37.773972","lng":"-122.431297"}
 
     headers = {'X-eBirdApiToken': 'mi9017dfidae'}
-    # os environ to replace this from secrets.sh
+    # put this in secrets.sh
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     print(response.text)
-    # build your own dictionary and then jsonify this 
 
-    return json
+    return render_template(index.html)
+
+
+    # url = "https://ebird.org/ws2.0/data/obs/geo/recent/amecro"
+
+    # # species id needs to be at end of the URL
+
+    # querystring = {"lat":'37.774929',"lng":'-122.419416'}
+
+    # headers = {'X-eBirdApiToken': 'mi9017dfidae'}
+    # # os environ to replace this from secrets.sh
+
+    # response = requests.request("GET", url, headers=headers, params=querystring)
+
+    # print(response.text)
+
+    # build your own dictionary and then jsonify this 
+    # return json
+
 
 
 # EXISTING USER - ROUTES ########################################################

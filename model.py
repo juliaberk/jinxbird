@@ -7,6 +7,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+ebird_API='mi9017dfidae'
 
 #####################################################################
 # Model definitions

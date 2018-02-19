@@ -1,12 +1,15 @@
 <!doctype html>
 <html>
-<head>
-    <title>Jinx Bird</title>
+  <head>
+      <title>Jinx Bird</title>
 
-    <link rel="stylesheet" href="style.css">
+      <!-- CSS will go here -->
 
-</head>
-<body>
+  </head>
+
+  <body>
+
+    <b>Jinx Bird Logo</b>
 
     {% if "user_id" in session %}
       <a href="/logout">Logout</a>
@@ -14,18 +17,20 @@
       <a href="/login">Login</a>
     {% endif %}
 
-<hr>
-
     {% for flash in get_flashed_messages() %}
       {{ flash }}
     {% endfor %}
 
-{% block content %}
+    <hr>
 
-    <!-- This is where the STUFF will go -->
+    {% block content %}
 
-{% endblock %}
+      <!-- This is where the STUFF will go -->
 
+    {% endblock %}
 
-</body>
+<!-- I want my Javascript to be in it's own file when shit's working -->
+  <!-- <script src="static/js/main.js"></script> -->
+
+  </body>
 </html>
