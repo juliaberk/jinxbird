@@ -1,3 +1,4 @@
+"use strict";
 
 
 
@@ -7,5 +8,3 @@
 
 
 
-
-$('#bird-search').on('click', updateStatus);

@@ -32,4 +32,4 @@ def request_ebird():
     print ebird_json
 
 
-request_ebird()
+#request_ebird()

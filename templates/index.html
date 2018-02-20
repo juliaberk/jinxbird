@@ -7,25 +7,64 @@
 
 <form action="/" method="POST">
 
-  <input type="search" name="bird_species">
-  <input type="submit" id="bird-search" data-lat="test" data-lng="123">
-  
-<!-- MAP -->
+  <input type="text" name="bird_species">
+<!--   <input type="text" name="lat" id="lat" value="not working!">
+  <input type="text" name="lng" id="lng" value="not working!"> -->
+  <input type="submit" id="bird-search">
 
 
-    <script>
 
-// Try HTML5 geolocation.
+<!-- jQuery for putting lat/long into my bird search form -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<!-- The sauce for this geolocation: -->
+<!-- http://html5doctor.com/finding-your-position-with-geolocation/-->
+
+<script>
+
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };
-  }
- 
+  var timeoutVal = 10 * 1000 * 1000;
+  navigator.geolocation.getCurrentPosition(
+    displayPosition, 
+    displayError
+  );
+}
+// enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 
+else {
+  alert("Geolocation is not supported by this browser");
+}
+
+let test = []
+
+function displayPosition(position) {
+  // this function pulls the lat and long out of position
+  var lat = position.coords.latitude; 
+  var lng = position.coords.longitude;
+  return [lat,lng];
+}
 
 
-    </script>
+// 
+
+// I really want to access the values from this function, but it won't
+// let me. The dream was to grab the return values, send them as hidden
+// fields in my form and have them go into the API get request 
+
+// jquery to fill hidden fields
+// $("#lat").attr("value", "test");
+// $("#lng").attr("value", "123");
+
+function displayError(error) {
+  var errors = { 
+    1: 'Permission denied',
+    2: 'Position unavailable',
+    3: 'Request timeout'
+  };
+  alert("Error: " + errors[error.code]);
+}
+
+testing = displayPosition()
+console.log(testing)
+</script>
 
 {% endblock %}

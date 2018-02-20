@@ -26,12 +26,17 @@ def index():
 
     return render_template("index.html")
 
+
 @app.route('/', methods=['POST'])
 def search_birds():
     """Get the bird name and check if it's in the database"""
 
     # Get the common name of the bird from the user input
     common_name = request.form.get('bird_species')
+
+    # Get the lat and long from the hidden fields 
+    session["lat"] = request.form.get('lat')
+    session["lng"] = request.form.get('lng')
 
     # Check the database for the bird
     bird = Species.query.filter_by(common_name=common_name).first()
@@ -50,6 +55,7 @@ def search_birds():
     # for MVP go to new page
     return render_template("map.html", species_id=species_id)
 
+
 @app.route('/results.json', methods=['GET'])
 def display_map():
     """Take the user's location + selected bird, give to API, get back info """
@@ -58,15 +64,6 @@ def display_map():
     # longitude = request.args.get('longitude')
     # species_id = request.args.get('speciesId')
 
-
-    url = "https://ebird.org/ws2.0/data/obs/geo/recent/amecro"
-
-    querystring = {"lat":"37.773972","lng":"-122.431297"}
-
-    headers = {'X-eBirdApiToken': 'mi9017dfidae'}
-    # put this in secrets.sh
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
 
     print(response.text)
 
