@@ -8,8 +8,8 @@
 <form action="/" method="POST">
 
   <input type="text" name="bird_species">
-<!--   <input type="text" name="lat" id="lat" value="not working!">
-  <input type="text" name="lng" id="lng" value="not working!"> -->
+  <input type="text" name="lat" id="lat" value="loading...">
+  <input type="text" name="lng" id="lng" value="loading...">
   <input type="submit" id="bird-search">
 
 
@@ -34,25 +34,18 @@ else {
   alert("Geolocation is not supported by this browser");
 }
 
-let test = []
+// Create a global variable that we can bind lat/long to
+let coordinates;
 
 function displayPosition(position) {
   // this function pulls the lat and long out of position
   var lat = position.coords.latitude; 
   var lng = position.coords.longitude;
-  return [lat,lng];
+
+  // Put the values in the hidden form 
+  $("#lat").attr("value", lat);
+  $("#lng").attr("value", lng);
 }
-
-
-// 
-
-// I really want to access the values from this function, but it won't
-// let me. The dream was to grab the return values, send them as hidden
-// fields in my form and have them go into the API get request 
-
-// jquery to fill hidden fields
-// $("#lat").attr("value", "test");
-// $("#lng").attr("value", "123");
 
 function displayError(error) {
   var errors = { 
@@ -62,9 +55,6 @@ function displayError(error) {
   };
   alert("Error: " + errors[error.code]);
 }
-
-testing = displayPosition()
-console.log(testing)
 </script>
 
 {% endblock %}

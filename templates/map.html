@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- <script src="/static/birds.js"></script> -->
 
-<p> {{ session.common_name }} </p>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<p> {{ session.get("common_name") }} </p>
+<p> {{ lat }} </p>
+<p> {{ lng }} </p>
+
 
 <head>
-    <title>Geolocation</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -22,11 +27,12 @@
       }
     </style>
   </head>
+
   <body>
     <div id="map"></div>
+
+    <!-- Javascript starts here. Will need to go into it's own file -->
     <script>
-
-
 
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
@@ -39,7 +45,9 @@
           center: {lat: 37.773972, lng: -122.431297},
           zoom: 7
         });
-        infoWindow = new google.maps.InfoWindow;
+        infoWindow = new google.maps.InfoWindow({
+          width: 150
+        });
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -51,12 +59,26 @@
 
             // This is the stuff the ebird API needs to get sighting info
             let data = {
-                 "lat": position.coords.latitude,
-                 "longitude": position.coords.longitude,
-                 "speciesId" : {{ species_id }}
-            }
+                  "lat": {{ lat }},
+                  "lng": {{ lng }},
+                  "speciesId": '{{ species_id }}'
+             }
 
-            // make an AJAX call will have callback function for rest of stuff
+             // AJAX give the API the data, get results and use them for markers
+
+             $.get("/results.json", data, function (results) {
+                    alert(results.birds );
+                });
+
+            // Retrieve data about each bird sighting and make markers
+
+            // make an AJAX call will have callback function for rest of stuff - pass data w/ species id, lat, long
+
+            // get, route /results.json, data, callback fuction
+
+            // callback function will have the data from ebird_api()
+            // callback function loop over to make markers 
+            // in javascript ajax to server results.json, which then calls ebird_api function, which returns json to back to server file, then return same json to ajax callback
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');

@@ -16,20 +16,20 @@ except KeyError:
 #############################################################################
 
 
-def request_ebird():
-    """Send a GET request to ebird using lat, long, species """
+# def request_ebird(species_id, lat, lng):
+#     """Send a GET request to ebird using lat, long, species """
 
-    url = "https://ebird.org/ws2.0/data/obs/geo/recent/amecro"
+#     url = "https://ebird.org/ws2.0/data/obs/geo/recent/{{ species_id }}"
 
-    querystring = {"lat":"37.773972","lng":"-122.431297"}
+#     querystring = {"lat":{{ lat }},"lng": {{ lng }}}
 
-    headers = {'X-eBirdApiToken': API_TOKEN}
+#     headers = {'X-eBirdApiToken': API_TOKEN}
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+#     response = requests.request("GET", url, headers=headers, params=querystring)
 
-    ebird_json = response.json()
+#     ebird_json = response.json()
 
-    print ebird_json
+#     return ebird_json
 
 
 #request_ebird()

@@ -16,7 +16,10 @@ app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "asdfjkl"
+app.secret_key = "asdsd8765453fsdfal"
+
+# eBird API key, to be moved eventually into ebird_api.py
+API_TOKEN = os.environ['ebird_API']
 
 # ROUTES ################################################################## 
 
@@ -29,14 +32,16 @@ def index():
 
 @app.route('/', methods=['POST'])
 def search_birds():
-    """Get the bird name and check if it's in the database"""
+    """Get the bird name and check if it's in the database
+       Also get the user's lat/lng from form via the browser
+    """
 
     # Get the common name of the bird from the user input
     common_name = request.form.get('bird_species')
 
-    # Get the lat and long from the hidden fields 
-    session["lat"] = request.form.get('lat')
-    session["lng"] = request.form.get('lng')
+    # Get the user's lat/lng from the hidden form fields
+    lat = request.form.get('lat')
+    lng = request.form.get('lng')
 
     # Check the database for the bird
     bird = Species.query.filter_by(common_name=common_name).first()
@@ -46,40 +51,46 @@ def search_birds():
         flash("That species is not in our database. Please check your spelling and try again")
         return redirect("/")
 
-    # Save common name in the session so user can make a record about it later
+    # Save common name in the session for display on map page
     session["common_name"] = bird.common_name
 
+    # Add lat/lng to session for record purposes?  
+    session["lat"] = lat
+    session["lng"] = lng
+
     # Get species code from database so we can use ebird API
+    # I know I interchangably call them code/id and that sucks
     species_id = bird.species_code
 
     # for MVP go to new page
-    return render_template("map.html", species_id=species_id)
+    return render_template("map.html", species_id=species_id, lat=lat,
+                            lng=lng)
 
 
 @app.route('/results.json', methods=['GET'])
 def display_map():
     """Take the user's location + selected bird, give to API, get back info """
 
-    # lat = request.args.get('lat')
-    # longitude = request.args.get('longitude')
-    # species_id = request.args.get('speciesId')
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+    species_id = request.args.get('speciesId')
 
+    return jsonify({'birds': request_ebird(species_id, lat, lng)})
 
-    print(response.text)
+def request_ebird(species_id, lat, lng):
+    """Send a GET request to ebird using lat, long, species """
 
-    return render_template(index.html)
+    url = "https://ebird.org/ws2.0/data/obs/geo/recent/{}".format(species_id)
 
+    querystring = {"lat": lat,"lng": lng }
 
-    # url = "https://ebird.org/ws2.0/data/obs/geo/recent/amecro"
+    headers = {'X-eBirdApiToken': API_TOKEN}
 
-    # # species id needs to be at end of the URL
+    response = requests.request("GET", url, headers=headers, params=querystring)
 
-    # querystring = {"lat":'37.774929',"lng":'-122.419416'}
+    ebird_json = response.json()
 
-    # headers = {'X-eBirdApiToken': 'mi9017dfidae'}
-    # # os environ to replace this from secrets.sh
-
-    # response = requests.request("GET", url, headers=headers, params=querystring)
+    return ebird_json
 
     # print(response.text)
 
