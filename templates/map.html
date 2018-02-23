@@ -39,98 +39,60 @@
 
 
   <!-- Map Javascript starts here. Will need to go into it's own file -->
-  <script>
+<script>
+  jQuery(function($) {
+      // Asynchronously Load the map API 
+      var script = document.createElement('script');
+      script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJD3ZuwDHY&callback=initialize";
+      document.body.appendChild(script);
+  });
 
-    jQuery(function($) {
-        // Asynchronously Load the map API 
-        var script = document.createElement('script');
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJD3ZuwDHY&callback=initialize";
-        document.body.appendChild(script);
-    });
-
-    function initialize() {
-        var map;
-        var bounds = new google.maps.LatLngBounds();
-        var mapOptions = {
-            mapTypeId: 'roadmap'
-        };
-
-    // This is the stuff the ebird API needs to get sighting info
-    let data = {
-          "lat": {{ lat }},
-          "lng": {{ lng }},
-          "speciesId": '{{ species_id }}'
-     }
-
-     // AJAX give the API the data, get results and use them for markers
-     $.get("/results.json", data, function (results) {
-            alert(results.birds[1].howMany);
-            console.log(results.birds[0].howMany)
-
-      // Multiple Markers
-      var markers = [
-          ['San Francisco', 37.773972,-122.431297],
-          ['Palace of Westminster, London', 51.499633,-0.124755]
-
-      ];
-
-    // Retrieve data about each bird sighting and make markers
-
-    // make an AJAX call will have callback function for rest of stuff - pass data w/ species id, lat, long
-
-    // get, route /results.json, data, callback fuction
-
-    // callback function will have the data from ebird_api()
-    // callback function loop over to make markers 
-    // in javascript ajax to server results.json, which then calls ebird_api function, which returns json to back to server file, then return same json to ajax callback
-
-
-       // Info Window Content
-      var infoWindowContent = [
-          ['<div class="info_content">' +
-          '<h3>London Eye</h3>' +
-          '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +        '</div>'],
-          ['<div class="info_content">' +
-          '<h3>Palace of Westminster</h3>' +
-          '<p>The Palace of Westminster is the meeting place of the House of Commons and the House of Lords, the two houses of the Parliament of the United Kingdom. Commonly known as the Houses of Parliament after its tenants.</p>' +
-          '</div>']
-      ];
-          
-      // Display multiple markers on a map
-      var infoWindow = new google.maps.InfoWindow(), marker, i;
-      
-      // Loop through our array of markers & place each one on the map  
-      for( i = 0; i < markers.length; i++ ) {
-          var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-          bounds.extend(position);
-          marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              title: markers[i][0]
-          });
-          
-          // Allow each marker to have an info window    
-          google.maps.event.addListener(marker, 'click', (function(marker, i) {
-              return function() {
-                  infoWindow.setContent(infoWindowContent[i][0]);
-                  infoWindow.open(map, marker);
-              }
-          })(marker, i));
-
-          // Automatically center the map fitting all markers on the screen
-          map.fitBounds(bounds);
-      } 
-      // This curly brace is from the beginning of for loop for placing markers
-
-        }); 
-        // AJAX get request ends here 
-                        
+  function initialize() {
+      var map;
+      var bounds = new google.maps.LatLngBounds();
+      var mapOptions = {
+          mapTypeId: 'roadmap'
+      };
+                      
       // Display a map on the page
       map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
       map.setTilt(45);
 
 
-      // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+      // Beginning of ebird API 
+
+      // This is the stuff the ebird API needs to get sighting info
+      let data = {
+            "lat": {{ lat }},
+            "lng": {{ lng }},
+            "speciesId": '{{ species_id }}'
+       }
+
+       // AJAX gives the API the data, get results and use them for markers
+       $.get("/results.json", data, function (results) {
+              alert(results.birds[1].howMany);
+              console.log(results.birds[0].howMany)
+
+          let sighting, marker, html; 
+
+          for (let key in results.birds) {
+              sighting = results.birds[key];
+
+
+                // Define the marker
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(sighting.lat, sighting.lng),
+                    map: map,
+                    title: 'number: ' + results.birds.howMany,
+                });
+          }
+
+        })
+
+      // Automatically center the map fitting all markers on the screen
+      map.fitBounds(bounds);
+
+          //   // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
       var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
           this.setZoom(14);
           google.maps.event.removeListener(boundsListener);
@@ -139,9 +101,10 @@
   }
 
 
-  </script> 
 
-  </body>
+</script> 
+
+</body>
 
 
 
