@@ -166,7 +166,9 @@ def logout():
 
 # USER RECORDS ##############################################################
 
-
+@app.route('/add_record')
+def new_record():
+    """Form for user to add new record. Store in database"""
 
 
 # NEW USER - ROUTES ##########################################################
