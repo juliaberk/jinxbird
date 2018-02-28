@@ -12,49 +12,6 @@
   <input type="text" name="lng" id="lng" value="loading...">
   <input type="submit" id="bird-search">
 
-
-
-<!-- jQuery for putting lat/long into my bird search form -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-<!-- The sauce for this geolocation: -->
-<!-- http://html5doctor.com/finding-your-position-with-geolocation/-->
-
-<script>
-
-if (navigator.geolocation) {
-  var timeoutVal = 10 * 1000 * 1000;
-  navigator.geolocation.getCurrentPosition(
-    displayPosition, 
-    displayError
-  );
-}
-// enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 
-else {
-  alert("Geolocation is not supported by this browser");
-}
-
-// Create a global variable that we can bind lat/long to
-let coordinates;
-
-function displayPosition(position) {
-  // this function pulls the lat and long out of position
-  var lat = position.coords.latitude; 
-  var lng = position.coords.longitude;
-
-  // Put the values in the hidden form 
-  $("#lat").attr("value", lat);
-  $("#lng").attr("value", lng);
-}
-
-function displayError(error) {
-  var errors = { 
-    1: 'Permission denied',
-    2: 'Position unavailable',
-    3: 'Request timeout'
-  };
-  alert("Error: " + errors[error.code]);
-}
-</script>
+<script src="/static/js/geolocation.js"></script>
 
 {% endblock %}

@@ -12,15 +12,36 @@ import csv
 
 # BIRDS ###################################################################
 
-def load_birds():
+# def load_birds():
+#     """Load bird common names with corresponding species codes into database"""
+
+#     for i, row in enumerate(open('seed_data/species.csv')):
+#         data = row.rstrip().split(",")
+#         common_name, species_code = data
+
+#         bird = Species(common_name=common_name,
+#                     species_code=species_code)
+
+#         db.session.add(bird)
+
+#         # For testing, just to see it was happening
+#         if i % 100 == 0:
+#             print i
+
+#     db.session.commit()
+
+
+# USERS ####################################################################
+
+def load_users():
     """Load bird common names with corresponding species codes into database"""
 
-    for i, row in enumerate(open('seed_data/species.csv')):
+    for i, row in enumerate(open('seed_data/users.csv')):
         data = row.rstrip().split(",")
         common_name, species_code = data
 
-        bird = Species(common_name=common_name,
-                    species_code=species_code)
+        user = Users(email=email,
+                    password=password)
 
         db.session.add(bird)
 
@@ -29,10 +50,6 @@ def load_birds():
             print i
 
     db.session.commit()
-
-
-# USERS ####################################################################
-
 
 # def set_val_user_id():
 #     """Set value for the next user_id after seeding database"""
@@ -59,6 +76,7 @@ if __name__ == "__main__":
     db.create_all()
 
     load_birds()
-    set_val_user_id()
+    # set_val_user_id()
+    # load_users()
 
 

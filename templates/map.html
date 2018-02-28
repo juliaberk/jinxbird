@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- <script src="/static/birds.js"></script> -->
-
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
 <p> {{ session.get("common_name") }} </p>
 <p> {{ lat }} </p>
@@ -11,10 +8,6 @@
 
 
 <head>
-  <!-- I truthfully don't know where this came from or what it is -->
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-
 <!-- CSS for the map -->
   <style>
     #map_wrapper {
@@ -27,6 +20,7 @@
     }
   </style>
 
+
 </head>
 
 <body>
@@ -37,9 +31,11 @@
       <div id="map_canvas" class="mapping"></div>
   </div>
 
+<!-- Map begins here. Right now it uses Jinja, so we can't put it in a
+seperate file.  -->
 
-  <!-- Map Javascript starts here. Will need to go into it's own file -->
-<script>
+<script> 
+
   jQuery(function($) {
       // Asynchronously Load the map API 
       var script = document.createElement('script');
@@ -100,9 +96,61 @@
       
   }
 
+</script>
+<!-- End Map Javascript -->
+
+  <!-- bullshit search thingy -->
+
+    <div class="container">
+
+  </div> -->
+  <div id="output">
+
+  </div>
+</div>
+
+<script>
+
+$( window ).load(function(event) {
+  var searchTerm = "{{ session.get("common_name") }}";
+  // event.preventDefault();
+  $.ajax({
+    url: `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=${searchTerm}&limit=1&callback=?`,
+    method: "GET",
+    dataType: "jsonp",
+    success: function(data) {
+      $("#output").html(""); // clears out contents from earlier searches
+      for (var i = 0; i < data[1].length; i++) {
+        $("#output").append(`<a href='${data[3][i]}' target='_blank'><div id='image${i}'></div><span>${data[1][i]}</span></a><p>${data[2][i]}</p>`);
+      }
+      $.ajax({
+        url: `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=${searchTerm}&gpslimit=20`,
+        method: "GET",
+        dataType: "jsonp",
+        success: function(newData) {
+          for (var i = 0; i < 3; i++) {
+            if (newData.query.pages[i].hasOwnProperty("thumbnail") === true) {
+              $("#image" + (newData.query.pages[i].index - 1)).html(`<img src='${newData.query.pages[i].thumbnail.source}'>`);
+            } else {
+              $("#image" + (newData.query.pages[i].index - 1)).html("<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Article_icon_cropped.svg/512px-Article_icon_cropped.svg.png' class='responsive-img valign articleIcon'>");
+            }
+          }
+        },
+        error: function() {
+          console.log("second call unsuccessful");
+        }
+      })
+    },
+    error: function() {
+      alert("Error, please try again");
+    }
+  });
+});
+
+</script>
 
 
-</script> 
+
 
 </body>
 

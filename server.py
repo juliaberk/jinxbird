@@ -3,20 +3,20 @@
 from flask import Flask, redirect, request, render_template, session, jsonify, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
-from ebird_api import *
 
 from model import connect_to_db, db, User, Record, Species
 
+import os
 import json
 import requests
-
+import datetime
 
 app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "asdsd8765453fsdfal"
+app.secret_key = "asdsd87aj8665axnk75fsdfal"
 
 # eBird API key, to be moved eventually into ebird_api.py
 API_TOKEN = os.environ['ebird_API']
@@ -92,12 +92,6 @@ def request_ebird(species_id, lat, lng):
 
     return ebird_json
 
-    # print(response.text)
-
-    # build your own dictionary and then jsonify this 
-    # return json
-
-
 
 # EXISTING USER - ROUTES ########################################################
 
@@ -148,11 +142,16 @@ def user_list():
 
 @app.route("/users/<int:user_id>")
 def user_detail(user_id):
-    """Show info about user."""
+    """Show info/records from user, let them make new records"""
 
     # Show all of a user's records 
-    # user = User.query.options(db.joinedload('records')).get(user_id)
-    return render_template("user.html", user=user)
+    user = User.query.options(db.joinedload('records')).get(user_id)
+
+    # We need datetime for user to make a new record
+    user_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+
+
+    return render_template("user.html", user=user, user_datetime=user_datetime)
 
 
 @app.route('/logout')

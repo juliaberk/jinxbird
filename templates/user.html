@@ -1,8 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h2>{{ user.email }} ({{ user.user_id }})</h2>
+<h2>{{ user.email }} ({{ user.user_id }})</h2>
+
+<!-- The lat and long come from geolocation.js -->
+<!-- Needs to disable # of birds field if not seen -->
+<!-- Drop down of form for submitting new user -->
+<form action="" id="record">
+    User ID:<br>
+        <input type="text" name="user_id" value="{{ user.user_id }}"><br>
+    Common Name:<br>
+        <input type="text" name="common_name" value="{{ session.get("common_name") }}"><br>
+    Date and Time:<br>
+        <input type="text" name="datetime" value="{{user_datetime}}"><br>
+    Latitude:<br>
+        <input type="text" name="datetime" id="lat" value="loading..."><br>
+    Longitude:<br>
+        <input type="text" name="datetime" id="lng" value="loading..."><br>
+    Notes:<br>
+        <textarea name="notes"></textarea>
+    <br>Seen?
+        <input type="radio" name="seen" value="True">Yes</input>
+        <input type="radio" name="seen" value="False">No</input>
+    <br># of Birds:<br>
+        <input type="text" name="lastname" value=""><br>
+
+    <br><input type="submit" value="Submit">
+</form> 
 
 <!-- List of records will go here -->
+
+
+<!-- Geolocation for the records form -->
+<script src="/static/js/geolocation.js"></script>
 
 {% endblock %}
