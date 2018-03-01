@@ -99,11 +99,8 @@ seperate file.  -->
 </script>
 <!-- End Map Javascript -->
 
-  <!-- bullshit search thingy -->
 
-    <div class="container">
-
-  </div> -->
+  <!-- Wikipedia output div -->
   <div id="output">
 
   </div>
@@ -111,11 +108,13 @@ seperate file.  -->
 
 <script>
 
+// Wikipedia search 
 $( window ).load(function(event) {
   var searchTerm = "{{ session.get("common_name") }}";
   // event.preventDefault();
   $.ajax({
     url: `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=${searchTerm}&limit=1&callback=?`,
+    // limit=1 to only get one result
     method: "GET",
     dataType: "jsonp",
     success: function(data) {
@@ -133,6 +132,7 @@ $( window ).load(function(event) {
               $("#image" + (newData.query.pages[i].index - 1)).html(`<img src='${newData.query.pages[i].thumbnail.source}'>`);
             } else {
               $("#image" + (newData.query.pages[i].index - 1)).html("<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Article_icon_cropped.svg/512px-Article_icon_cropped.svg.png' class='responsive-img valign articleIcon'>");
+              // img if there is no response
             }
           }
         },

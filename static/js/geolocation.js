@@ -1,5 +1,7 @@
 // <!-- The sauce for this geolocation: -->
 // <!-- http://html5doctor.com/finding-your-position-with-geolocation/-->
+"use strict";
+
 
 if (navigator.geolocation) {
   var timeoutVal = 10 * 1000 * 1000;

@@ -166,9 +166,30 @@ def logout():
 
 # USER RECORDS ##############################################################
 
-@app.route('/add_record')
-def new_record():
+@app.route('/add_record', methods=['POST'])
+def new_record(user_id):
     """Form for user to add new record. Store in database"""
+
+    user_id = user_id
+    common_name = request.form[""]
+    date_time = request.form[""]
+    latitude = request.form[""]
+    longitude = request.form[""]
+    notes = request.form[""]
+    seen = request.form[""]
+    num_birds = request.form[""]
+
+    new_record = Record(user_id=user_id, common_name=common_name, date_time=
+                        datetime, latitude=latitude, longitude=longitude, notes=
+                        notes, seen=seen, num_birds=num_birds)
+
+    db.session.add(new_record)
+    db.session.commit()
+
+    flash("Your record about the {} has been saved".format())
+
+    return redirect("/users/{}".format(user_id))
+
 
 
 # NEW USER - ROUTES ##########################################################
@@ -195,7 +216,7 @@ def register_process():
     db.session.commit()
 
     flash("User {} added.".format(email))
-    return redirect("/{}".format(new_user.user_id))
+    return redirect("/users/{}".format(new_user.user_id))
 
 
 # DEBUGGER STUFF ##########################################################
