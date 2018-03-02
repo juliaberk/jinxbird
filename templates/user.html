@@ -5,33 +5,75 @@
 
 <!-- The lat and long come from geolocation.js -->
 <!-- Needs to disable # of birds field if not seen -->
-<!-- Drop down of form for submitting new user -->
-<form action="" id="record">
+
+<!-- this is the div containing the form for adding a new record -->
+<div>
+<form action="" id="record_form">
     User ID:<br>
-        <input type="text" name="user_id" value="{{ user.user_id }}"><br>
+        <input type="text"  id="user_id" value="{{ user.user_id }}"><br>
     Common Name:<br>
-        <input type="text" name="common_name" value="{{ session.get("common_name") }}"><br>
+        <input type="text" id="common_name" value="{{ session.get("common_name") }}"><br>
     Date and Time:<br>
-        <input type="text" name="datetime" value="{{user_datetime}}"><br>
+        <input type="text" id="date_time" value="{{user_datetime}}"><br>
     Latitude:<br>
-        <input type="text" name="datetime" id="lat" value="loading..."><br>
+        <input type="text" id="lat" id="lat" value="loading..."><br>
     Longitude:<br>
-        <input type="text" name="datetime" id="lng" value="loading..."><br>
+        <input type="text" id="lng" id="lng" value="loading..."><br>
     Notes:<br>
-        <textarea name="notes"></textarea>
+        <textarea id="notes"></textarea>
     <br>Seen?
         <input type="radio" name="seen" value="True">Yes</input>
         <input type="radio" name="seen" value="False">No</input>
     <br># of Birds:<br>
-        <input type="text" name="num_birds" value=""><br>
+        <input type="text" id="num_birds" value="0"><br>
 
-    <br><input type="submit" value="Submit">
+    <br><input type="button" id="record" value="Submit">
 </form> 
+</div>
 
-<!-- List of records will go here -->
+<!-- AJAX for this record form -->
+<script>
+// Event listener calls this function
+// 
+function addNewRecord(evt){
+    evt.preventDefault();
+
+    // All the data from the form in here
+    var formInputs = {
+        "user_id": $("#user_id").val(),
+        "common_name": $("#common_name").val(),
+        "date_time": $("#date_time").val(),
+        "lat": $("#lat").val(),
+        "lng": $("#lng").val(),
+        "notes": $("#notes").val(),
+        "seen": $('input[name=seen]:checked').val(),
+        "num_birds": $("#num_birds").val()
+    };
+
+    $.post('/add_record', formInputs, function (results){
+        console.log(results);
+    });
+}
+
+// Event listener on the submit button
+$('#record').on('click', addNewRecord);
+
+</script>
+<!-- End of AJAX for adding a new record -->
+
+<!-- List of all records goes in this div -->
+
 
 
 <!-- Geolocation for the records form -->
 <script src="/static/js/geolocation.js"></script>
 
 {% endblock %}
+
+<!-- #event listener on button  -->
+<!-- on click call function that has prevent default
+in that function you grab each one, select by id
+jquest.val() that returns the values
+create object keys (key corresponds to whatever request.form.get) and values from .val
+then that's the object you send with post
+-->
