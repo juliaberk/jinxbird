@@ -66,8 +66,7 @@ seperate file.  -->
 
        // AJAX gives the API the data, get results and use them for markers
        $.get("/results.json", data, function (results) {
-              alert(results.birds[1].howMany);
-              console.log(results.birds[0].howMany)
+              console.log(results.birds[1].howMany);
 
           let sighting, marker, html; 
 

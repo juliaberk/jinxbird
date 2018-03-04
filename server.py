@@ -145,13 +145,16 @@ def user_detail(user_id):
     """Show info/records from user, let them make new records"""
 
     # Show all of a user's records 
-    user = User.query.options(db.joinedload('records')).get(user_id)
+    user = User.query.get(user_id)
+
+    records = Record.query.filter_by(user_id=user_id).all()
 
     # We need datetime for user to make a new record
     user_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
-    return render_template("user.html", user=user, user_datetime=user_datetime)
+    return render_template("user.html", records=records, user=user, 
+                            user_datetime=user_datetime)
 
 
 @app.route('/logout')
@@ -185,10 +188,15 @@ def new_record():
 
     db.session.add(new_record)
     db.session.commit()
+    # jsonify dictionary and return that
 
-    flash("Your record about the {} has been saved".format(common_name))
+    # This is just for display purposes, so it doesn't need everything
+    new_rec_dic = {"common name": user_id,
+                    "date_time" : date_time,
+                    "latitude" : latitude
+    }
 
-    return "success!"
+    return jsonify(new_rec_dic)
 
 
 

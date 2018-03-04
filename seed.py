@@ -80,11 +80,11 @@ def load_records():
         for row in data:
             record_id, user_id, common_name, date_time, latitude, longitude, notes, seen, num_birds = row
 
-        record = Record(record_id=record_id, user_id=user_id, common_name=common_name,
+            record = Record(record_id=record_id, user_id=user_id, common_name=common_name,
             date_time=date_time, latitude=latitude, longitude=longitude, 
             notes=notes, seen=seen, num_birds=num_birds)
 
-        db.session.add(record)
+            db.session.add(record)
 
     db.session.commit()
 

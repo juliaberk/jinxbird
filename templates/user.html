@@ -2,6 +2,7 @@
 {% block content %}
 
 <h2>{{ user.email }} ({{ user.user_id }})</h2>
+<span id="confirm-add"></span>
 
 <!-- The lat and long come from geolocation.js -->
 <!-- Needs to disable # of birds field if not seen -->
@@ -36,7 +37,7 @@
 // Event listener calls this function
 // 
 function addNewRecord(evt){
-    evt.preventDefault();
+     evt.preventDefault();
 
     // All the data from the form in here
     var formInputs = {
@@ -50,9 +51,14 @@ function addNewRecord(evt){
         "num_birds": $("#num_birds").val()
     };
 
-    $.post('/add_record', formInputs, function (results){
+    $.post('/add_record', formInputs, function(results) {
+        // Tell the user their record has been added
+        $('#confirm-add').text('Your new record has been saved');
+        // The line below sets the fields that weren't pre-filled back to their
+        // default. This is notes, seen? and # of birds:
+        document.getElementById("record_form").reset();
         console.log(results);
-    });
+    })
 }
 
 // Event listener on the submit button
@@ -62,18 +68,51 @@ $('#record').on('click', addNewRecord);
 <!-- End of AJAX for adding a new record -->
 
 <!-- List of all records goes in this div -->
+<div>
 
+    {% if records %}
+
+    <table class="table">
+        <thread>
+            <tr>
+                <th scope="col">Common Name</th>
+                <th scope="col">Date/Time</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Seen</th>
+                <th scope="col"># Birds</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <th scope="row">{{ record.common_name }}</th>
+                <td>{{ record.date_time }}</td>
+                <td>{{ record.latitude }}</td>
+                <td>{{ record.longitude }}</td>
+                <td>{{ record.notes }}</td>
+                <td>{{ record.seen }}</td>
+                <td>{{ record.num_birds }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+</div>
+
+<!--     <ul>
+        {% for record in records %}
+          <li>
+            {{ record.common_name }}
+          </li>
+        {% endfor %}
+        </ul> -->
 
 
 <!-- Geolocation for the records form -->
 <script src="/static/js/geolocation.js"></script>
 
 {% endblock %}
-
-<!-- #event listener on button  -->
-<!-- on click call function that has prevent default
-in that function you grab each one, select by id
-jquest.val() that returns the values
-create object keys (key corresponds to whatever request.form.get) and values from .val
-then that's the object you send with post
--->
