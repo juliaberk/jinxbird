@@ -34,8 +34,8 @@
 
 <!-- AJAX for this record form -->
 <script>
-// Event listener calls this function
-// 
+
+// Event listener calls this function// 
 function addNewRecord(evt){
      evt.preventDefault();
 
@@ -51,13 +51,13 @@ function addNewRecord(evt){
         "num_birds": $("#num_birds").val()
     };
 
-    $.post('/add_record', formInputs, function(results) {
+    $.post('/add_record.json', formInputs, function(results) {
+        // // The line below sets the fields that weren't pre-filled back to their default. This is notes, seen? and # of birds:
+        // document.getElementById("record_form").reset();
+        // reload page to show new results
+        location.reload(true);
         // Tell the user their record has been added
         $('#confirm-add').text('Your new record has been saved');
-        // The line below sets the fields that weren't pre-filled back to their
-        // default. This is notes, seen? and # of birds:
-        document.getElementById("record_form").reset();
-        console.log(results);
     })
 }
 
@@ -72,7 +72,7 @@ $('#record').on('click', addNewRecord);
 
     {% if records %}
 
-    <table class="table">
+    <table id="user-table" class="table">
         <thread>
             <tr>
                 <th scope="col">Common Name</th>

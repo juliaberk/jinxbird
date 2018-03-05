@@ -169,7 +169,7 @@ def logout():
 
 # USER RECORDS ##############################################################
 
-@app.route('/add_record', methods=['POST'])
+@app.route('/add_record.json', methods=['POST'])
 def new_record():
     """Form for user to add new record. Store in database"""
 
@@ -191,9 +191,13 @@ def new_record():
     # jsonify dictionary and return that
 
     # This is just for display purposes, so it doesn't need everything
-    new_rec_dic = {"common name": user_id,
+    new_rec_dic = {"common name": common_name,
                     "date_time" : date_time,
-                    "latitude" : latitude
+                    "latitude" : latitude,
+                    "longitude": longitude,
+                    "notes": notes,
+                    "seen": seen,
+                    "num birds": num_birds
     }
 
     return jsonify(new_rec_dic)
