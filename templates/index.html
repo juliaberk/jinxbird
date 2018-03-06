@@ -1,23 +1,50 @@
 {% extends 'base.html' %}
+<head>
+    <style>
+
+        body {
+            background: #dbb700 !important;
+        }
+
+    </style>
+</head>
+
 {% block content %}
 
 <!-- Bird species search field -->
 
-<center>
+<div class="container-fluid">
+    <div class="row">
+        
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 left">
+            <br>
+            <center><h1>What bird <br>elludes <br>you?</h1></center>
 
-    <h4>What bird elludes you?</h4>
+                <br>
+                <center>
+                    <form action="/" method="POST">
 
-        <form action="/" method="POST">
+                      <input type="text" name="bird_species">
+                      <input type="hidden" name="lat" id="lat" value="loading...">
+                      <input type="hidden" name="lng" id="lng" value="loading...">
 
-          <input type="text" name="bird_species">
-          <input type="text" name="lat" id="lat" value="loading...">
-          <input type="text" name="lng" id="lng" value="loading...">
+                      <input type="submit" id="bird-search">
+                    </form>
 
-          <input type="submit" id="bird-search">
-          
-        </form>
+                </center>
 
-</center>
+                <div id="triangle-bottomleft"></div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 right">
+
+            <div id="triangle-bottomright"></div>
+
+        </div>
+    </div>
+</div>
+
 
 
 <script src="/static/js/geolocation.js"></script>

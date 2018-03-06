@@ -1,36 +1,67 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>{{ user.email }} ({{ user.user_id }})</h2>
-<span id="confirm-add"></span>
+<div class="container">
 
-<!-- The lat and long come from geolocation.js -->
-<!-- Needs to disable # of birds field if not seen -->
+    <!-- Begin Nav -->
+    <nav class="navbar">
+      <a class="navbar-brand">Jinx Bird</a>
 
-<!-- this is the div containing the form for adding a new record -->
-<div>
-<form action="" id="record_form">
-    User ID:<br>
-        <input type="text"  id="user_id" value="{{ user.user_id }}"><br>
-    Common Name:<br>
-        <input type="text" id="common_name" value="{{ session.get("common_name") }}"><br>
-    Date and Time:<br>
-        <input type="text" id="date_time" value="{{user_datetime}}"><br>
-    Latitude:<br>
-        <input type="text" id="lat" id="lat" value="loading..."><br>
-    Longitude:<br>
-        <input type="text" id="lng" id="lng" value="loading..."><br>
-    Notes:<br>
-        <textarea id="notes"></textarea>
-    <br>Seen?
-        <input type="radio" name="seen" value="True">Yes</input>
-        <input type="radio" name="seen" value="False">No</input>
-    <br># of Birds:<br>
-        <input type="text" id="num_birds" value="0"><br>
+            {% if "user_id" in session %}
+              <a href="/logout">Logout</a>
+            {% else %}
+              <a href="/login">Login</a>
+            {% endif %}
 
-    <br><input type="button" id="record" value="Submit">
-</form> 
-</div>
+            {% for flash in get_flashed_messages() %}
+              {{ flash }}
+            {% endfor %}
+
+            <a href="/users/24124">Dashboard</a>
+
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+    <!-- End Nav -->
+
+    <div class="row">
+    <div class="col">
+
+        <h2>{{ user.email }} ({{ user.user_id }})</h2>
+        <span id="confirm-add"></span>
+
+        <!-- The lat and long come from geolocation.js -->
+        <!-- Needs to disable # of birds field if not seen -->
+
+
+
+        <!-- this is the div containing the form for adding a new record -->
+            <div>
+            <form action="" id="record_form">
+                User ID:<br>
+                    <input type="text"  id="user_id" value="{{ user.user_id }}"><br>
+                Common Name:<br>
+                    <input type="text" id="common_name" value="{{ session.get("common_name") }}"><br>
+                Date and Time:<br>
+                    <input type="text" id="date_time" value="{{user_datetime}}"><br>
+                Latitude:<br>
+                    <input type="text" id="lat" id="lat" value="loading..."><br>
+                Longitude:<br>
+                    <input type="text" id="lng" id="lng" value="loading..."><br>
+                Notes:<br>
+                    <textarea id="notes"></textarea>
+                <br>Seen?
+                    <input type="radio" name="seen" value="True">Yes</input>
+                    <input type="radio" name="seen" value="False">No</input>
+                <br># of Birds:<br>
+                    <input type="text" id="num_birds" value="0"><br>
+
+                <br><input type="button" id="record" value="Submit">
+            </form> 
+            </div>
+    </div>
 
 <!-- AJAX for this record form -->
 <script>
@@ -55,7 +86,7 @@ function addNewRecord(evt){
         // // The line below sets the fields that weren't pre-filled back to their default. This is notes, seen? and # of birds:
         // document.getElementById("record_form").reset();
         // reload page to show new results
-        location.reload(true);
+        // location.reload(true);
         // Tell the user their record has been added
         $('#confirm-add').text('Your new record has been saved');
     })
@@ -67,41 +98,49 @@ $('#record').on('click', addNewRecord);
 </script>
 <!-- End of AJAX for adding a new record -->
 
-<!-- List of all records goes in this div -->
-<div>
+    <div class="col">
+        
+        <!-- List of all records goes in this div -->
+        <div>
 
-    {% if records %}
+            {% if records %}
 
-    <table id="user-table" class="table">
-        <thread>
-            <tr>
-                <th scope="col">Common Name</th>
-                <th scope="col">Date/Time</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-                <th scope="col">Notes</th>
-                <th scope="col">Seen</th>
-                <th scope="col"># Birds</th>
-            </tr>
-        </thread>
-        <tbody>
-            {% for record in records %}
-            <tr>
-                <th scope="row">{{ record.common_name }}</th>
-                <td>{{ record.date_time }}</td>
-                <td>{{ record.latitude }}</td>
-                <td>{{ record.longitude }}</td>
-                <td>{{ record.notes }}</td>
-                <td>{{ record.seen }}</td>
-                <td>{{ record.num_birds }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <table id="user-table" class="table">
+                <thread>
+                    <tr>
+                        <th scope="col">Common Name</th>
+                        <th scope="col">Date/Time</th>
+                        <th scope="col">Latitude</th>
+                        <th scope="col">Longitude</th>
+                        <th scope="col">Notes</th>
+                        <th scope="col">Seen</th>
+                        <th scope="col"># Birds</th>
+                    </tr>
+                </thread>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <th scope="row">{{ record.common_name }}</th>
+                        <td>{{ record.date_time }}</td>
+                        <td>{{ record.latitude }}</td>
+                        <td>{{ record.longitude }}</td>
+                        <td>{{ record.notes }}</td>
+                        <td>{{ record.seen }}</td>
+                        <td>{{ record.num_birds }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    {% endif %}
+            {% endif %}
 
+        </div>
+    </div>
+
+    </div>
+    <!-- end of row -->
 </div>
+<!-- end of Bootstrap container div -->
 
 <!--     <ul>
         {% for record in records %}

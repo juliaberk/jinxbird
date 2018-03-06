@@ -1,0 +1,85 @@
+/* Optional: Makes the map fill the window. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar{
+    margin-bottom: 0em;
+    background: #b7c7bd;
+}
+
+/* Index.html */
+.h1, h1 {
+    font-size: 90px;
+    font-family: 'Rozha One', serif !important;
+    color: #0f0a01;
+}
+
+.right {
+    box-shadow: 0px 100vh rgba(183, 199, 189, 0.6) inset;
+    background-image: url(/static/img/storks.jpg); no-repeat left top;
+    background-size: cover;
+    height: 100vh;
+}
+
+input[type=text] {
+    border-bottom: 2px solid #0f0a01;
+    /*background-color: rgba(219, 183, 0, 1);*/
+    width: 15em;
+}
+
+
+.left {
+    background: rgba(219, 183, 0, 1);
+    height: 100vh;
+    padding-left: 0;
+}
+
+#triangle-bottomright {
+    width: 0;
+    height: 0;
+    border-bottom: 140px solid #eaded0;
+    border-left: 800px solid transparent;
+    position: absolute;
+    bottom: 0;
+}
+
+#triangle-bottomleft {
+    width: 0;
+    height: 0;
+    border-bottom: 140px solid #eaded0;
+    border-right: 651px solid transparent;
+    position: absolute;
+    bottom: 0;
+}
+
+
+/* Map Page */
+
+#map-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+
+#map {
+    height: 100%;
+    z-index: -1;
+}
+
+#output {
+    position: relative;
+}
+
+.floating-panel {
+    padding: 20px;
+    position: absolute;
+    z-index: 5;
+    margin-top: -43em; 
+    margin-left: 5em;
+    width: 25%;
+    box-shadow: 0px 100vh rgba(183, 199, 189, 0.9) inset;
+}

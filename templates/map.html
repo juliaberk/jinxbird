@@ -1,40 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-<p> {{ session.get("common_name") }} </p>
-<p> {{ lat }} </p>
-<p> {{ lng }} </p>
-
-
-<head>
-
-  <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the map fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-  </style>
-
-</head>
-
 <body>
 
-  <!-- Map HTML -->
+<!-- Begin Nav -->
+<nav class="navbar">
+  <a class="navbar-brand">Jinx Bird</a>
+
+        {% if "user_id" in session %}
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/login">Login</a>
+        {% endif %}
+
+        {% for flash in get_flashed_messages() %}
+          {{ flash }}
+        {% endfor %}
+
+        <a href="/users/24124">Dashboard</a>
+
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+<!-- End Nav -->
+
+<!-- Map HTML -->
+<div id="map-wrapper">
   <div id="map"></div>
+</div>
 
 <!-- Map Javascript begins here. Right now it uses Jinja, so we can't put it in a
 seperate file.  -->
 
 <script> 
-
   var map;
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -43,54 +43,56 @@ seperate file.  -->
       mapTypeId: 'roadmap'
     });
   }
-
-
   // Beginning of ebird API 
-
   // This is the stuff the ebird API needs to get sighting info
   let data = {
         "lat": {{ lat }},
         "lng": {{ lng }},
         "speciesId": '{{ species_id }}'
    }
-
   // AJAX gives the API the data, get results and use them for markers
    $.get("/results.json", data, function (results) {
           // Sanity checking my results
           console.log(results.birds[1].howMany);
-
-      let sighting, marker, html; 
-
+      let sighting, marker, html;
+      let count = 0; 
       for (let key in results.birds) {
           sighting = results.birds[key];
-
+          // Keep track of # of sightings to tell user
+          count += 1
             // Define the marker
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(sighting.lat, sighting.lng),
                 map: map,
                 title: 'number: ' + results.birds.howMany,
             });
-
       } //end of for loop 
 
-    }) // end of get request
+      document.getElementById('count').innerHTML= count;
 
+    }) // end of get request
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJD3ZuwDHY&callback=initMap">
-
 </script>
 <!-- End Map Javascript -->
 
+<!-- Begin floating panel -->
 
-  <!-- Wikipedia output div -->
-  <div id="output">
+<div class="floating-panel shadow">
+  <center>
+    <!-- Wikipedia output div -->
+    <div id="output"></div>
+    <!-- Other info -->
+    <div>
+      <h6>Recent observations</h6>
+      <p>The {{ session.get("common_name") }} has been spotted <span id="count"></span> times near you within the last 15 days.  
+    </div>
+  </center>
 
-  </div>
 </div>
 
 <script>
-
 // Wikipedia search 
 $( window ).load(function(event) {
   var searchTerm = "{{ session.get("common_name") }}";
@@ -129,7 +131,6 @@ $( window ).load(function(event) {
     }
   });
 });
-
 </script>
 
 
