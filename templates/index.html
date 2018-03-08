@@ -2,9 +2,8 @@
 <head>
     <style>
 
-        body {
-            background: #dbb700 !important;
-        }
+        /*font awesome*/
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
     </style>
 </head>
@@ -19,18 +18,23 @@
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 left">
             <br>
             <center><h1>What bird <br>elludes <br>you?</h1></center>
+            <center><span id="blurb">Enter the species you're itching to add to your Life List and we will show you every sighting in your area from the past month</span></center>
 
                 <br>
                 <center>
                     <form action="/" method="POST">
-
+                        <span><i class="fas fa-search"></i></span>
                       <input type="text" name="bird_species">
                       <input type="hidden" name="lat" id="lat" value="loading...">
                       <input type="hidden" name="lng" id="lng" value="loading...">
-
-                      <input type="submit" id="bird-search">
+                      <input type="submit" class="btn btn-outline-dark btn-sm" id="bird-search">
                     </form>
 
+                    <span>        
+                        {% for flash in get_flashed_messages() %}
+                        {{ flash }}
+                        {% endfor %}
+                    </span>
                 </center>
 
                 <div id="triangle-bottomleft"></div>
@@ -38,6 +42,12 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 right">
+
+            <span id="brand">
+                Jinx Bird
+                <span id="burger"><i class="fas fa-align-right"></i></span>
+
+            </span>
 
             <div id="triangle-bottomright"></div>
 

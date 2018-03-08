@@ -6,16 +6,58 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
-.navbar{
+nav.navbar{
     margin-bottom: 0em;
     background: #b7c7bd;
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+}
+
+nav.navbar a {
+    font-family: 'Rozha One', serif;
+    font-size: 1.1em;
 }
 
 /* Index.html */
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: #eaded0 !important;
+}
+
+span#brand {
+    font-family: 'Rozha One', serif !important;
+    font-size: 1.5em;
+    padding-right: 1em;
+    padding-top: .5em;
+    position: absolute;
+    right: 0;
+}
+
+span#blurb {
+    display: inline-block;
+    width: 30em;
+    padding-top: 4em;
+}
+
+span#burger img {
+    vertical-align: middle;
+    width: 2em;
+    border-style: none;
+}
+
 .h1, h1 {
     font-size: 90px;
     font-family: 'Rozha One', serif !important;
     color: #0f0a01;
+    background: rgba(183, 199, 189, 0.6);
+    display: inline;
+    padding-top: .6em;
+    line-height: 1.0em;
+}
+
+span .h1, h1 {
+    padding-top: 0em;
 }
 
 .right {
@@ -26,23 +68,55 @@ html, body {
 }
 
 input[type=text] {
-    border-bottom: 2px solid #0f0a01;
-    /*background-color: rgba(219, 183, 0, 1);*/
-    width: 15em;
+    border-bottom: 1px solid #0f0a01;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    width: 17em;
+    background: transparent;
 }
 
 
 .left {
     background: rgba(219, 183, 0, 1);
-    height: 100vh;
     padding-left: 0;
+    padding-top: 2em;
+}
+
+
+/*Grey triangles at bottom of divs*/
+/*these don't work YET*/
+
+@media (min-width: 768px) {
+  #triangle-bottomright {
+    border-left: 375px solid transparent;
+  }
+  #triangle-bottomleft {
+    border-right: 375px solid transparent;
+  }
+}
+@media (min-width: 992px) {
+  #triangle-bottomright {
+    border-left: 496px solid transparent;
+  }
+  #triangle-bottomleft {
+    border-right: 496px solid transparent;
+  }
+}
+@media (min-width: 1200px) {
+  #triangle-bottomright {
+    border-left: 600px solid transparent;
+  }
+  #triangle-bottomleft {
+    border-right: 600px solid transparent;
+  }
 }
 
 #triangle-bottomright {
     width: 0;
     height: 0;
     border-bottom: 140px solid #eaded0;
-    border-left: 800px solid transparent;
+    border-left: 700px solid transparent;
     position: absolute;
     bottom: 0;
 }
@@ -51,7 +125,7 @@ input[type=text] {
     width: 0;
     height: 0;
     border-bottom: 140px solid #eaded0;
-    border-right: 651px solid transparent;
+    border-right: 720px solid transparent;
     position: absolute;
     bottom: 0;
 }
@@ -59,27 +133,80 @@ input[type=text] {
 
 /* Map Page */
 
-#map-wrapper {
-    position: relative;
-    height: 100%;
+a {
+    color: #0f0a01;
+    font-family: 'Roboto', sans-serif; 
 }
 
+.h6, h6 {
+    font-size: 1.1rem;
+}
+
+#map-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.form-control {
+    background-color: rgba(234, 223, 209, .7);
+}
+
+.window-content {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 0.9em;
+    font-size: 1.1em;
+}
 
 #map {
     height: 100%;
-    z-index: -1;
 }
 
 #output {
     position: relative;
 }
 
+#output a {
+    text-decoration: underline;
+    font-size: 1.2em !important;
+    font-family: 'Rozha One', serif; 
+}
+
+#output img {
+    padding-bottom: .5em;
+}
+
 .floating-panel {
     padding: 20px;
     position: absolute;
     z-index: 5;
-    margin-top: -43em; 
+    margin-top: -41em; 
     margin-left: 5em;
     width: 25%;
-    box-shadow: 0px 100vh rgba(183, 199, 189, 0.9) inset;
+    border-style: double;
+    box-shadow: 0px 100vh rgba(219, 183, 0, 0.8) inset;
 }
+
+/* User.html */
+
+textarea#notes {
+    width: 17em;
+}
+
+.h2, h2 {
+    font-family: 'Rozha One', serif; 
+    background: rgba(183, 199, 189, 0.6);
+}
+
+.col-4 {
+    background-color: #dbb700;
+    /*font-family: 'Rozha One', serif; */
+    margin-top: 1.4em;
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+    padding-bottom: 1.4em;
+}
+
+/*.table td, .table th {
+    background-color: eaded0;
+}*/

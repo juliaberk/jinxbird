@@ -1,35 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
+<head>
+    <style>
+        html, body {
+            font-family: 'Roboto', sans-serif !important;
+            /*background-color: #eaded0; */
+        }
+
+    </style>
+
+</head>
 
 <div class="container">
 
-    <!-- Begin Nav -->
-    <nav class="navbar">
-      <a class="navbar-brand">Jinx Bird</a>
-
-            {% if "user_id" in session %}
-              <a href="/logout">Logout</a>
-            {% else %}
-              <a href="/login">Login</a>
-            {% endif %}
-
-            {% for flash in get_flashed_messages() %}
-              {{ flash }}
-            {% endfor %}
-
-            <a href="/users/24124">Dashboard</a>
-
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav>
-    <!-- End Nav -->
-
     <div class="row">
-    <div class="col">
 
-        <h2>{{ user.email }} ({{ user.user_id }})</h2>
+    <div class="col-12"
+        <!-- Begin Nav -->
+        <nav class="navbar">
+          <a class="navbar-brand" style="font-family: Rozha One;font-size: 1.5em;">Jinx Bird</a>
+
+                {% if "user_id" in session %}
+                  <a href="/logout">Logout</a>
+                {% else %}
+                  <a href="/login">Login</a>
+                {% endif %}
+
+                {% for flash in get_flashed_messages() %}
+                  {{ flash }}
+                {% endfor %}
+
+                <a href="/users/24124">Reports</a>
+                <a href="/users/24124">Map</a>
+
+          <form class="form-inline">
+            <input class="form-control mr-sm-2" action="/map.html" method="POST" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-dark btn-sm" type="submit">Search</button>
+          </form>
+        </nav>
+        <!-- End Nav -->
+    </div>
+
+
+    <div class="col-4">
+
+        <br>
+
+        <h2>{{ user.email }}</h2>
+        <h2>({{ user.user_id }})</h2>
         <span id="confirm-add"></span>
 
         <!-- The lat and long come from geolocation.js -->
@@ -40,8 +58,7 @@
         <!-- this is the div containing the form for adding a new record -->
             <div>
             <form action="" id="record_form">
-                User ID:<br>
-                    <input type="text"  id="user_id" value="{{ user.user_id }}"><br>
+                    <input type="hidden"  id="user_id" value="{{ user.user_id }}"><br>
                 Common Name:<br>
                     <input type="text" id="common_name" value="{{ session.get("common_name") }}"><br>
                 Date and Time:<br>
@@ -58,7 +75,7 @@
                 <br># of Birds:<br>
                     <input type="text" id="num_birds" value="0"><br>
 
-                <br><input type="button" id="record" value="Submit">
+                <br><input type="button" class="btn btn-outline-dark btn-sm" id="record" value="Submit">
             </form> 
             </div>
     </div>
@@ -86,9 +103,9 @@ function addNewRecord(evt){
         // // The line below sets the fields that weren't pre-filled back to their default. This is notes, seen? and # of birds:
         // document.getElementById("record_form").reset();
         // reload page to show new results
-        // location.reload(true);
+        location.reload(true);
         // Tell the user their record has been added
-        $('#confirm-add').text('Your new record has been saved');
+        // $('#confirm-add').text('Your new record has been saved');
     })
 }
 
@@ -98,15 +115,15 @@ $('#record').on('click', addNewRecord);
 </script>
 <!-- End of AJAX for adding a new record -->
 
-    <div class="col">
+    <div class="col-8">
         
         <!-- List of all records goes in this div -->
         <div>
 
             {% if records %}
-
-            <table id="user-table" class="table">
-                <thread>
+            <br>
+            <table id="user-table" class="table table-sm table-bordered table-hover">
+                <thead class="thead-light">
                     <tr>
                         <th scope="col">Common Name</th>
                         <th scope="col">Date/Time</th>
@@ -116,7 +133,7 @@ $('#record').on('click', addNewRecord);
                         <th scope="col">Seen</th>
                         <th scope="col"># Birds</th>
                     </tr>
-                </thread>
+                </thead>
                 <tbody>
                     {% for record in records %}
                     <tr>
@@ -141,15 +158,6 @@ $('#record').on('click', addNewRecord);
     <!-- end of row -->
 </div>
 <!-- end of Bootstrap container div -->
-
-<!--     <ul>
-        {% for record in records %}
-          <li>
-            {{ record.common_name }}
-          </li>
-        {% endfor %}
-        </ul> -->
-
 
 <!-- Geolocation for the records form -->
 <script src="/static/js/geolocation.js"></script>

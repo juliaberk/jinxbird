@@ -27,7 +27,7 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
 
 
-    def __repr__(self):
+    def __repr__(self):     
         """Provide helpful representation when printed"""
 
         return "<User user_id={} email={}>".format(self.user_id,

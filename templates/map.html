@@ -5,7 +5,7 @@
 
 <!-- Begin Nav -->
 <nav class="navbar">
-  <a class="navbar-brand">Jinx Bird</a>
+  <a class="navbar-brand" style="font-family: Rozha One;font-size: 1.5em;">Jinx Bird</a>
 
         {% if "user_id" in session %}
           <a href="/logout">Logout</a>
@@ -17,11 +17,12 @@
           {{ flash }}
         {% endfor %}
 
-        <a href="/users/24124">Dashboard</a>
+        <a href="/users/24130">Reports</a>
+        <a href="/">Map</a>
 
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-dark btn-sm" type="submit">Search</button>
   </form>
 </nav>
 <!-- End Nav -->
@@ -35,6 +36,7 @@
 seperate file.  -->
 
 <script> 
+
   var map;
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -43,6 +45,7 @@ seperate file.  -->
       mapTypeId: 'roadmap'
     });
   }
+
   // Beginning of ebird API 
   // This is the stuff the ebird API needs to get sighting info
   let data = {
@@ -50,27 +53,64 @@ seperate file.  -->
         "lng": {{ lng }},
         "speciesId": '{{ species_id }}'
    }
+
   // AJAX gives the API the data, get results and use them for markers
    $.get("/results.json", data, function (results) {
-          // Sanity checking my results
-          console.log(results.birds[1].howMany);
+          
       let sighting, marker, html;
+
+      // Window when you click on a marker
+      let infoWindow = new google.maps.InfoWindow({
+        width: 150
+      });
+
       let count = 0; 
+
       for (let key in results.birds) {
+          // This is each instance of a bird being seen:
           sighting = results.birds[key];
-          // Keep track of # of sightings to tell user
-          count += 1
+
+            // Keep track of # of sightings to tell user
+            count += 1
+
             // Define the marker
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(sighting.lat, sighting.lng),
                 map: map,
-                title: 'number: ' + results.birds.howMany,
+                title: sighting.common_name
             });
+
+            // Content of the info window
+            html = (
+              '<div class="window-content">' +
+              '<p><b>Common Name: </b>' + sighting.comName + '</p>' +
+              '<p><b>Location: </b>' + sighting.locName + '</p>' +
+              '<p><b>Observation Date + Time: </b>' + sighting.obsDt + '</p>' +
+              '<p><b>Location Private?: </b>' + sighting.locationPrivate + '</p>' +
+              '</div>'
+                );
+
+            // This brings all the parts together
+            bindInfoWindow(marker, map, infoWindow, html);
+
       } //end of for loop 
 
       document.getElementById('count').innerHTML= count;
 
+    // This function is outside the for loop.
+    // When a marker is clicked it closes any currently open infowindows
+    // Sets the content for the new marker with the content passed through
+    // then it open the infoWindow with the new content on the marker that's clicked
+    function bindInfoWindow(marker, map, infoWindow, html) {
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.close();
+            infoWindow.setContent(html);
+            infoWindow.open(map, marker);
+        });
+    }
+
     }) // end of get request
+
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJD3ZuwDHY&callback=initMap">
@@ -79,13 +119,13 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJ
 
 <!-- Begin floating panel -->
 
-<div class="floating-panel shadow">
+<div class="floating-panel">
   <center>
     <!-- Wikipedia output div -->
     <div id="output"></div>
     <!-- Other info -->
     <div>
-      <h6>Recent observations</h6>
+      <h6 style="font-family: Rozha One;"><u>Recent observations</u></h6>
       <p>The {{ session.get("common_name") }} has been spotted <span id="count"></span> times near you within the last 15 days.  
     </div>
   </center>
@@ -94,7 +134,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJ
 
 <script>
 // Wikipedia search 
-$( window ).load(function(event) {
+$( window ).on('load', function(event) {
   var searchTerm = "{{ session.get("common_name") }}";
   // event.preventDefault();
   $.ajax({
