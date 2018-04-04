@@ -17,19 +17,19 @@ __APIs:__ eBird, Wikipedia, Google Maps, Geolocation </br>
 - PostgreSQL
 - Python 2.7
 - eBird API key
-- Google Maps API key
+- Google Maps API key (provided)
 
 To get this app up and running locally, please do the following:
 
 Clone repository:
 ```
-$ git clone link here
+$ git clone https://github.com/juliaberk/jinxbird
 ```
 Create a virtual enviornment:
 ```
 $ virtual env
 ```
-Activate the virutla environment:
+Activate the virtual environment:
 ```
 $ source env/bin/activate
 ```
