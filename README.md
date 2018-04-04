@@ -8,15 +8,16 @@ Jinx Bird is a search tool to help bird watchers spot the specific species that 
 * Python 3 
 
 ## Tech Stack
-__Frontend:__  JTML5, Javascript, JQuery, Bootstrap </br>
+__Frontend:__  HTML5, Javascript, JQuery, Bootstrap </br>
 __Backend:__  Python, Flask, PostgreSQL, SQLAlchemy </br>
-__APIs:__ eBird, Wikipedia, Geolocation </br>
+__APIs:__ eBird, Wikipedia, Google Maps, Geolocation </br>
 
 ## Setup/Installation
 #### Requirements:
 - PostgreSQL
 - Python 2.7
-- eBird API keys
+- eBird API key
+- Google Maps API key
 
 To get this app up and running locally, please do the following:
 
@@ -40,3 +41,4 @@ Sign up at https://ebird.org to get your own API key. Save it to a 'secrets.py' 
 ```
 export ebird_API = 'your key here'
 ```
+
