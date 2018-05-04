@@ -16,12 +16,12 @@ app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "asdsd87aj8665axnk75fsdfal"
+app.secret_key = "asdsd43zsdfal"
 
 # eBird API key, to be moved eventually into ebird_api.py
 API_TOKEN = os.environ['ebird_API']
 
-# ROUTES ################################################################## 
+# ROUTES ##################################################################
 
 @app.route('/', methods=['GET'])
 def index():
@@ -54,7 +54,7 @@ def search_birds():
     # Save common name in the session for display on map page
     session["common_name"] = bird.common_name
 
-    # Add lat/lng to session for record purposes?  
+    # Add lat/lng to session for record purposes?
     session["lat"] = lat
     session["lng"] = lng
 
@@ -117,7 +117,7 @@ def login_process():
         flash("We couldn't find you. Are you sure you registered?")
         return redirect("/login")
 
-    # If user is correct but password is not 
+    # If user is correct but password is not
     if user.password != password:
         flash("Incorrect password")
         return redirect("/login")
@@ -133,8 +133,8 @@ def login_process():
 def user_list():
     """Show list of users."""
 
-    # This is a 2.0 feature. A page of all users that you can see when you're 
-    # signed in and view other user's records 
+    # This is a 2.0 feature. A page of all users that you can see when you're
+    # signed in and view other user's records
 
     users = User.query.all()
     return render_template("user_list.html", users=users)
@@ -144,7 +144,7 @@ def user_list():
 def user_detail(user_id):
     """Show info/records from user, let them make new records"""
 
-    # Show all of a user's records 
+    # Show all of a user's records
     user = User.query.get(user_id)
 
     records = Record.query.filter_by(user_id=user_id).all()
@@ -153,7 +153,7 @@ def user_detail(user_id):
     user_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
-    return render_template("user.html", records=records, user=user, 
+    return render_template("user.html", records=records, user=user,
                             user_datetime=user_datetime)
 
 
@@ -161,7 +161,7 @@ def user_detail(user_id):
 def logout():
     """Log out"""
 
-    # Remove the user id from the session so the right link/message shows up 
+    # Remove the user id from the session so the right link/message shows up
     del session["user_id"]
 
     flash("Logged Out")
@@ -243,4 +243,3 @@ if __name__ == "__main__":
     # DebugToolbarExtension(app)
 
     app.run(host="0.0.0.0")
-

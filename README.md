@@ -21,11 +21,13 @@ __APIs:__ eBird, Wikipedia, Google Maps, Geolocation </br>
 
 To get this app up and running locally, hop on your command line and please do the following:
 
+Navigate to a folder where you would like to clone the repo.
+
 Clone repository:
 ```
 $ git clone https://github.com/juliaberk/jinxbird
 ```
-Create a virtual enviornment:
+Create a virtual environment:
 ```
 $ virtual env
 ```
@@ -37,9 +39,13 @@ Install dependencies:
 ```
 $ pip install -r requirements.txt
 ```
-Sign up at https://ebird.org to get your own API key. Save it to a 'secrets.py' file like so:
+Sign up at https://ebird.org to get your own API key. Save it to a 'secrets.sh' file like so:
 ```
-export ebird_API = 'your key here'
+export ebird_API="your key here"
+```
+Source it:
+```
+source secrets.sh
 ```
 Create your database tables:
 ```
