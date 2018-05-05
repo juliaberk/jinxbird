@@ -43,7 +43,13 @@ Sign up at https://ebird.org to get your own API key. Save it to a 'secrets.sh' 
 ```
 export ebird_API="your key here"
 ```
-Source it:
+*NOTE* After June 2018 you will need your own API key for Google Maps. You will want to add your own API key to secrets, and put that variable in maps.html around line 116:
+```
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJD3ZuwDHY&callback=initMap">
+</script>
+```
+Source your secrets file:
 ```
 source secrets.sh
 ```
