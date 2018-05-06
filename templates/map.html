@@ -7,18 +7,18 @@
 <nav class="navbar">
   <a class="navbar-brand" style="font-family: Rozha One;font-size: 1.5em;">Jinx Bird</a>
 
-        {% if "user_id" in session %}
-          <a href="/logout">Logout</a>
-        {% else %}
-          <a href="/login">Login</a>
-        {% endif %}
+    {% if "user_id" in session %}
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a>
+    {% endif %}
 
-        {% for flash in get_flashed_messages() %}
-          {{ flash }}
-        {% endfor %}
+    {% for flash in get_flashed_messages() %}
+      {{ flash }}
+    {% endfor %}
 
-        <a href="/users/24130">Reports</a>
-        <a href="/">Map</a>
+    <a href="/users/24130">Reports</a>
+    <a href="/">Map</a>
 
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -28,14 +28,39 @@
 <!-- End Nav -->
 
 <!-- Map HTML -->
-<div id="map-wrapper">
-  <div id="map"></div>
+<!-- Beginning of Bootstrap Container -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+      <!--Column with Wikipedia info here  -->
+      <div class="floating-panel">
+        <center>
+          <!-- Wikipedia output div -->
+          <div id="output"></div>
+          <!-- Other info -->
+          <div>
+            <h6 style="font-family: Rozha One;"><u>Recent observations</u></h6>
+            <p>The {{ session.get("common_name") }} has been spotted <span id="count"></span> times near you within the last 15 days.
+          </div>
+        </center>
+      </div>
+    </div>
+    <!--End Wikipedia stuff  -->
+    <div class="col-sm-8">
+      <div id="map-wrapper">
+        <div id="map">
+          <!--THIS IS DA MAP-->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<!--Bootstrap Container ends here  -->
 
 <!-- Map Javascript begins here. Right now it uses Jinja, so we can't put it in a
 seperate file.  -->
 
-<script> 
+<script>
 
   var map;
   function initMap() {
@@ -46,7 +71,7 @@ seperate file.  -->
     });
   }
 
-  // Beginning of ebird API 
+  // Beginning of ebird API
   // This is the stuff the ebird API needs to get sighting info
   let data = {
         "lat": {{ lat }},
@@ -56,7 +81,7 @@ seperate file.  -->
 
   // AJAX gives the API the data, get results and use them for markers
    $.get("/results.json", data, function (results) {
-          
+
       let sighting, marker, html;
 
       // Window when you click on a marker
@@ -64,7 +89,7 @@ seperate file.  -->
         width: 150
       });
 
-      let count = 0; 
+      let count = 0;
 
       for (let key in results.birds) {
           // This is each instance of a bird being seen:
@@ -93,7 +118,7 @@ seperate file.  -->
             // This brings all the parts together
             bindInfoWindow(marker, map, infoWindow, html);
 
-      } //end of for loop 
+      } //end of for loop
 
       document.getElementById('count').innerHTML= count;
 
@@ -117,23 +142,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDplp0jQKlQ9DBrhxT6HsG2DHJ
 </script>
 <!-- End Map Javascript -->
 
-<!-- Begin floating panel -->
-
-<div class="floating-panel">
-  <center>
-    <!-- Wikipedia output div -->
-    <div id="output"></div>
-    <!-- Other info -->
-    <div>
-      <h6 style="font-family: Rozha One;"><u>Recent observations</u></h6>
-      <p>The {{ session.get("common_name") }} has been spotted <span id="count"></span> times near you within the last 15 days.  
-    </div>
-  </center>
-
-</div>
-
 <script>
-// Wikipedia search 
+// Wikipedia search
 $( window ).on('load', function(event) {
   var searchTerm = "{{ session.get("common_name") }}";
   // event.preventDefault();
@@ -173,11 +183,6 @@ $( window ).on('load', function(event) {
 });
 </script>
 
-
-
-
 </body>
-
-
 
 {% endblock %}
