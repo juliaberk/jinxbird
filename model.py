@@ -27,7 +27,7 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
 
 
-    def __repr__(self):     
+    def __repr__(self):
         """Provide helpful representation when printed"""
 
         return "<User user_id={} email={}>".format(self.user_id,
@@ -74,7 +74,10 @@ class Species(db.Model):
 
         return "<Species Code species_code={} bird_name={}>".format(self.species_code,
                                             self.common_name)
-
+#THIS MIGHT BE A BIG FAIL but let's try it for the autocomplete:
+    def as_dict(self):
+        """ Get the common name for the search autofill """
+        return {'Common Name': self.common_name}
 
 #################################################################
 
@@ -97,5 +100,3 @@ if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
     print "Connected to DB."
-
-

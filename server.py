@@ -16,12 +16,12 @@ app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "asdsd43zsdfal"
+app.secret_key = "asdsd7sbmjfw13643zsdfal"
 
 # eBird API key, to be moved eventually into ebird_api.py
 API_TOKEN = os.environ['ebird_API']
 
-# ROUTES ##################################################################
+# MAIN ROUTES ##################################################################
 
 @app.route('/', methods=['GET'])
 def index():
@@ -66,6 +66,13 @@ def search_birds():
     return render_template("map.html", species_id=species_id, lat=lat,
                             lng=lng)
 
+# THIS ROUTE MIGHT BE A BIG FAIL delete if I give up on autocomplete
+@app.route('/speices')
+def all_species():
+    """ All the species from the database, for the search field autocomplete """
+    all_species = Species.query.all()
+    list_species = [r.as_dict() for r in all_species]
+    return jsonify(list_species)
 
 @app.route('/results.json', methods=['GET'])
 def display_map():
