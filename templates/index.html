@@ -14,7 +14,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        
+
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 left">
             <br>
             <center><h1>What bird <br>elludes <br>you?</h1></center>
@@ -24,13 +24,13 @@
                 <center>
                     <form action="/" method="POST">
                         <span><i class="fas fa-search"></i></span>
-                      <input type="text" name="bird_species">
+                      <input type="text" id="tags" name="bird_species">
                       <input type="hidden" name="lat" id="lat" value="loading...">
                       <input type="hidden" name="lng" id="lng" value="loading...">
                       <input type="submit" class="btn btn-outline-dark btn-sm" id="bird-search">
                     </form>
 
-                    <span>        
+                    <span>
                         {% for flash in get_flashed_messages() %}
                         {{ flash }}
                         {% endfor %}
@@ -55,7 +55,48 @@
     </div>
 </div>
 
+/* BEGIN AUTO COMPLETE */
+/* SAUCE: https://jqueryui.com/autocomplete/ */
+/* <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Autocomplete - Default functionality</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+var availableTags = [
+  "ActionScript",
+  "AppleScript",
+  "Asp",
+  "BASIC",
+  "C",
+  "C++",
+  "Clojure",
+  "COBOL",
+  "ColdFusion",
+  "Erlang",
+  "Fortran",
+  "Groovy",
+  "Haskell",
+  "Java",
+  "JavaScript",
+  "Lisp",
+  "Perl",
+  "PHP",
+  "Python",
+  "Ruby",
+  "Scala",
+  "Scheme"
+];
+$( "input#tags" ).autocomplete({
+  source: availableTags
+});
+} );
+</script> */
 
+/* END AUTOCOMPLETE */
 
 <script src="/static/js/geolocation.js"></script>
 
