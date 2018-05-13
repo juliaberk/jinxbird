@@ -9,6 +9,8 @@
 </head>
 
 {% block content %}
+<!-- /* I owe this source my life for the autocomplete from my Species database
+http://abdulbaqi.io/2017/11/26/flask-form-ajax-sqlalchemy/  */ -->
 
 <!-- Bird species search field -->
 
@@ -55,49 +57,32 @@
     </div>
 </div>
 
-/* BEGIN AUTO COMPLETE */
-/* SAUCE: https://jqueryui.com/autocomplete/ */
-/* <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>jQuery UI Autocomplete - Default functionality</title>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- Below is for autofill search -->
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$( function() {
-var availableTags = [
-  "ActionScript",
-  "AppleScript",
-  "Asp",
-  "BASIC",
-  "C",
-  "C++",
-  "Clojure",
-  "COBOL",
-  "ColdFusion",
-  "Erlang",
-  "Fortran",
-  "Groovy",
-  "Haskell",
-  "Java",
-  "JavaScript",
-  "Lisp",
-  "Perl",
-  "PHP",
-  "Python",
-  "Ruby",
-  "Scala",
-  "Scheme"
-];
-$( "input#tags" ).autocomplete({
-  source: availableTags
+$(document).ready(function(){
+var species=[];
+
+function load_species(){
+	$.getJSON('/species', function(data, status, xhr){
+		for (var i = 0; i < data.length; i++ ) {
+        	species.push(data[i].name);
+    	}
 });
-} );
-</script> */
+};
 
-/* END AUTOCOMPLETE */
+load_species();
 
+$('#tags').autocomplete({
+	source: species,
+  minLength: 3
+	});
+});
+
+</script>
+
+<!-- This makes the geolocation magic happen -->
 <script src="/static/js/geolocation.js"></script>
 
 {% endblock %}

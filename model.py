@@ -77,7 +77,7 @@ class Species(db.Model):
 #THIS MIGHT BE A BIG FAIL but let's try it for the autocomplete:
     def as_dict(self):
         """ Get the common name for the search autofill """
-        return {'Common Name': self.common_name}
+        return {'name': self.common_name}
 
 #################################################################
 

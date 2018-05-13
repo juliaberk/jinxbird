@@ -11,9 +11,19 @@ import json
 import requests
 import datetime
 
+# These are for the autocomplete and might be garbage:
+# from flask_wtf import FlaskForm
+# from wtforms import StringField
+# from wtforms.validators import DataRequired, Length
+# #############
+
 app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
+
+# More garbage for autocomplete:
+# app.config['WTF_CSRF_ENABLED'] = True
+# app.config['SECRET_KEY']='my_love_dont_try'
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "asdsd7sbmjfw13643zsdfal"
@@ -67,7 +77,7 @@ def search_birds():
                             lng=lng)
 
 # THIS ROUTE MIGHT BE A BIG FAIL delete if I give up on autocomplete
-@app.route('/speices')
+@app.route('/species')
 def all_species():
     """ All the species from the database, for the search field autocomplete """
     all_species = Species.query.all()
