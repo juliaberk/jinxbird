@@ -99,4 +99,4 @@ if __name__ == "__main__":
     app = Flask(__name__)
     connect_to_db(app)
     db.create_all()
-    print "Connected to DB."
+    # print "Connected to DB."
