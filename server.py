@@ -29,7 +29,7 @@ app.jinja_env.auto_reload = True
 app.secret_key = "asdsd7sbmjfw13643zsdfal"
 
 # eBird API key, to be moved eventually into ebird_api.py
-API_TOKEN = mi9017dfidae
+API_TOKEN = "mi9017dfidae"
 
 # MAIN ROUTES ##################################################################
 
