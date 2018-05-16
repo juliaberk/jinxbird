@@ -27,6 +27,10 @@ Clone repository:
 ```
 $ git clone https://github.com/juliaberk/jinxbird
 ```
+Change into the directory:
+```
+cd jinxbird
+```
 Create a virtual environment:
 ```
 $ virtual env
