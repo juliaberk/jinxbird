@@ -84,7 +84,8 @@ class Species(db.Model):
 def connect_to_db(app):
     """Connect to database."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///jinx_bird'
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///jinx_bird'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = False
     db.app = app
