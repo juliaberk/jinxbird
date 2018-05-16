@@ -21,6 +21,8 @@ app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
+connect_to_db(app)
+
 # More garbage for autocomplete:
 # app.config['WTF_CSRF_ENABLED'] = True
 # app.config['SECRET_KEY']='my_love_dont_try'
@@ -251,7 +253,6 @@ def register_process():
 # DEBUGGER STUFF ##########################################################
 
 if __name__ == "__main__":
-    connect_to_db(app)
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     # app.debug = True
