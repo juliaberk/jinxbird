@@ -103,4 +103,4 @@ if __name__ == "__main__":
     db.create_all()
     # print "Connected to DB."
     # Do I need this for Heroku???:
-   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+#     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
