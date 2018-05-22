@@ -122,7 +122,7 @@ input[type=text] {
     width: 0;
     height: 0;
     border-bottom: 140px solid #eaded0;
-    border-left: 700px solid transparent;
+    border-left: 45em solid transparent;
     position: absolute;
     bottom: 0;
 }
