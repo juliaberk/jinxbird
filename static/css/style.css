@@ -186,7 +186,7 @@ a {
     margin-top: .1em;
     width: 100%;
     border-style: double;
-    box-shadow: 0px 100vh rgba(219, 183, 0, 0.8) inset;
+    box-shadow: 0px 100vh #FFE24C inset;
 }
 
 /* User.html */
