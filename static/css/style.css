@@ -85,7 +85,8 @@ input[type=text] {
 
 .left {
     background: rgba(219, 183, 0, 1);
-    /* background-image: url(/static/img/orange.jpg); */
+    background-image: url(/static/img/orange.jpg);
+    background-repeat: no-repeat;
     padding-left: 0;
     padding-top: 2em;
 }
