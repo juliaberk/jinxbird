@@ -68,7 +68,7 @@ span .h1, h1 {
 
 .right {
     box-shadow: 0px 100vh rgba(183, 199, 189, 0.6) inset;
-    background-image: url(/static/img/storks.jpg); no-repeat left top;
+    background-image: url(/static/img/storkstriangle.jpg); no-repeat left top;
     background-size: cover;
     height: 100vh;
 }
