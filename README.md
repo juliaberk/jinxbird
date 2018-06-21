@@ -2,7 +2,9 @@
 
 A funny thing happens when a bird watcher wants to add a specific bird to their Life List... it's nowhere to be found!
 
-Jinx Bird is a search tool to help bird watchers spot the specific species that has been ellusive. It is designed to help you in the moment, in the field (assuming you have Wifi or cell service). Jinx Bird will show you on a map where that species was last sighted within a 15 mile radius of your location within the last two weeks.
+https://jinxbird.herokuapp.com/
+
+Jinx Bird is a search tool to help bird watchers spot the specific species that has been elusive. It is designed to help you in the moment, in the field (assuming you have Wifi or cell service). Jinx Bird will show you on a map where that species was last sighted within a 15 mile radius of your location within the last two weeks.
 
 ## <a name=""></a>Coming Soon:
 * Python 3
